@@ -14,7 +14,7 @@ Then create an `output` folder in `ppbl-course-01/project-01`, because our Plutu
 - `cd ppbl-course-01/project-01`
 - `mkdir output`
 
-### Task 1: Install Nix
+## Task 1: Install Nix
 - link: https://nixos.org/download.html
 - docs -- getting easier, but there are still some pain points - do your best + ask questions!
 - A little background on Nix: https://nixos.org/guides/how-nix-works.html
@@ -22,7 +22,7 @@ Then create an `output` folder in `ppbl-course-01/project-01`, because our Plutu
 #### You will know you are successful if:
 - `nix-env --version` (https://nixos.org/download.html#nix-verify-installation)
 
-### Task 2: Start Plutus-Apps
+## Task 2: Start Plutus-Apps
 - In `ppbl-course-01/project-01/cabal.project`, look for the expected tag for `plutus-apps`
 - Change directory to `plutus-apps` that was cloned earlier.
 - In `plutus-apps`, run `git checkout 4edc082309c882736e9dec0132a3c936fe63b4ea`.
@@ -31,7 +31,7 @@ Then create an `output` folder in `ppbl-course-01/project-01`, because our Plutu
 #### You will know you are successful if:
 - You can see the nix command line `[nix-shell:~/.../ppbl-course-01/project-01]$`
 
-### Task 3: Compile your first Plutus Script
+## Task 3: Compile your first Plutus Script
 - In `nix-shell`, navigate to `ppbl-course-01/project-01`
 - Run `cabal update` - will take a few minutes the first time
 - Run `cabal repl` - will take a few minutes the first time
@@ -48,7 +48,7 @@ Right ()
 Now look in `ppbl-course-01/project-01/output`. You should see your first compiled Plutus Script - way to go!
 
 
-### Bonus Task:
+## Bonus Task:
 If you have `cardano-cli` installed, you can create a Contract Address from this script.
 
 ```
