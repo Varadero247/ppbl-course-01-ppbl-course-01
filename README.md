@@ -1,18 +1,59 @@
 # Plutus Project Based Learning
 ## Course #1 | Gimbalabs | February - April 2022
 
-## Project #1: Prepare Your Plutus Environment
+## Project #1: Prepare Your Plutus Environment + Compile a Plutus Script
+
+### Start by cloning this repository and Plutus-Apps
+```
+git clone https://gitlab.com/gimbalabs/ppbl/ppbl-course-01
+git clone https://github.com/input-output-hk/plutus-apps
+```
+Then create an `output` folder in `ppbl-course-01/project-01`, because our Plutus compiler will expect this directory to exist
+- `cd ppbl-course-01/project-01`
+- `mkdir output`
 
 ### Task 1: Install Nix
 - link: https://nixos.org/download.html
 - docs -- getting easier, but there are still some pain points - do your best + ask questions!
--
+- A little background on Nix: https://nixos.org/guides/how-nix-works.html
+
+#### You will know you are successful if:
+- `nix-env --version` (https://nixos.org/download.html#nix-verify-installation)
 
 ### Task 2: Start Plutus-Apps
-- clone this repo: https://github.com/input-output-hk/plutus-apps
-- git checkout -- how to find it!
-- nix-shell
+- In `ppbl-course-01/project-01/cabal.project`, look for the expected tag for `plutus-apps`
+- Change directory to `plutus-apps` that was cloned earlier.
+- In `plutus-apps`, run `git checkout 4edc082309c882736e9dec0132a3c936fe63b4ea`.
+- in `plutus-apps` run `nix-shell`
+
+#### You will know you are successful if:
+- You can see the nix command line `[nix-shell:~/.../ppbl-course-01/project-01]$`
 
 ### Task 3: Compile your first Plutus Script
-- cabal update
-- cabal repl
+- In `nix-shell`, navigate to `ppbl-course-01/project-01`
+- Run `cabal update` - will take a few minutes the first time
+- Run `cabal repl` - will take a few minutes the first time
+
+#### You will know you are successful if:
+You can run `cabal repl` and see that MyFirstPlutusCompiler is loaded:
+```
+Prelude Project01.MyFirstPlutusCompiler>
+```
+...and you can run `writeMyFirstValidatorScript` and get
+```
+Right ()
+```
+Now look in `ppbl-course-01/project-01/output`. You should see your first compiled Plutus Script - way to go!
+
+
+### Bonus Task:
+If you have `cardano-cli` installed, you can create a Contract Address from this script.
+
+```
+cardano-cli address build \
+--payment-script-file /ppbl-course-01/project-01/output/my-first-script.plutus
+--testnet-magic 1097911063 \
+--out-file my-first-script.addr
+```
+
+Look at this address on https://testnet.cardanoscan.io/. What do you notice?
