@@ -29,7 +29,7 @@ Then create an `/output` folder in `/ppbl-course-01/project-01`, because our Plu
 - in `/plutus-apps` run `nix-shell`
 
 #### You will know you are successful if:
-- You can see the nix command line `[nix-shell:~/.../ppbl-course-01/project-01]$`
+- You can see the nix command line `[nix-shell:~/.../plutus-apps]$`
 
 ## Task 1.03: Compile your first Plutus Script
 - In `nix-shell`, change directory to `/ppbl-course-01/project-01`
