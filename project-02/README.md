@@ -13,7 +13,12 @@
 
 ### Step 1: Compile to `simple-minting-script.plutus`:
 
+We will follow the same process
+
 ### Step 2: Use `cardano-cli` to create a Policy ID:
+```
+cardano-cli transaction policyid --script-file ppbl-course-01/project-02/output/simple-minting-script.plutus > simple-minting-script.id
+```
 
 ### Step 3 (if necessary): Make a Collateral TX
 
