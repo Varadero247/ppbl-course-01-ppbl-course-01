@@ -34,6 +34,12 @@ We will follow the same process as in [Project #1](https://gitlab.com/gimbalabs/
 ```
 cardano-cli transaction policyid --script-file ppbl-course-01/project-02/output/simple-minting-script.plutus > simple-minting-script.id
 ```
+
+In `/output`, create a file called `redeemer.json` and paste the following into it:
+```
+{"constructor":0,"fields":[]}
+```
+
 ### Step 3: Make a directory for transactions
 
 Make a transactions folder in `/ppbl-course-01/project-02/`:
@@ -84,18 +90,22 @@ cardano-cli transaction submit \
 
 ### Step 4: Now Mint!
 
+Try again next
+
 Set variables in bash:
 ```
 SENDER=$(cat ...path-to/base.addr)
 SENDERKEY= path to `payment.skey` for this address
-TXIN= get the TxID and TxHash for a sufficient TXIN.
-COLLATERAL=from Step 3 above
-POLICYID=from Step 2 above
-TOKENNAME=can be any hex string
-MINTAMOUNT=can be any positive integer
-SCRIPTFILE= .../path/to/simple-minting-script.plutus
+TXIN= hash and id
+COLLATERAL= hash and id
+POLICYID= from Step 2
+TOKENNAME= can be any name
+MINTAMOUNT= can be any amount
+SCRIPTFILE="...path to output/simple-minting-script.plutus"
+REDEEMERFILE="...path to output/redeemer.json"
 ```
 
+Updated 2022-02-21
 ```
 cardano-cli transaction build \
 --alonzo-era \
@@ -103,9 +113,9 @@ cardano-cli transaction build \
 --tx-in $TXIN \
 --tx-out $SENDER+2000000+"$MINTAMOUNT $POLICYID.$TOKENNAME" \
 --change-address $SENDER \
---mint="1 $POLICYID.$TOKENNAME" \
---mint-redeemer-value 1 \
+--mint "$MINTAMOUNT $POLICYID.$TOKENNAME" \
 --mint-script-file $SCRIPTFILE \
+--mint-redeemer-file $REDEEMERFILE \
 --tx-in-collateral $COLLATERAL \
 --protocol-params-file protocol.json \
 --out-file check-amount.raw
