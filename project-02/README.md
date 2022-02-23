@@ -1,11 +1,7 @@
 # Plutus PPBL Project 2: Minting a Token
-## 2.1: Three Ways to Mint a Token
+## 2.2: Three Ways to Mint a Token
 
-## Previous Sections
-1. [Mint a token on `cardano-cli` with a Mary-era policy]() -- add link(s) from Piotr
-2. [Mint a token in GameChanger]() -- add link(s) from Abdelkrim
-
-## 3: Mint a token on `cardano-cli` with a Plutus-era policy
+## 2.2.3: Mint a token on `cardano-cli` with a Plutus-era policy
 
 ### `/project-02/src/Project02`
 - `SimplePlutusMintingScript.hs` is the most basic template for minting Plutus tokens.
