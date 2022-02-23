@@ -90,8 +90,6 @@ cardano-cli transaction submit \
 
 ### Step 4: Now Mint!
 
-Try again next
-
 Set variables in bash:
 ```
 SENDER=$(cat ...path-to/base.addr)
@@ -128,5 +126,168 @@ cardano-cli transaction sign \
 
 cardano-cli transaction submit \
 --tx-file check-amount.signed \
+--testnet-magic 1097911063
+```
+
+# Everything below is coming up in Week 3
+
+## Project 2, Part 3: Exploring Redeemers
+
+### Example A
+
+We can use a simple integer as the redeemer. Not too helpful on its own, but we want you to know about this.
+
+See the resulting token here: https://testnet.cardanoscan.io/token/a4665736eeab3296e87428327dedac75c1623e57f92b7a2843faafd7616e797468696e67
+
+#### Step A1
+```
+cardano-cli transaction policyid --script-file redeemer-minting-script-a.plutus > redeemer-minting-script-a.id
+```
+
+#### Step A2
+Set variables in bash. Note: `TOKENNAME` can be anything, just make sure that it is converted into hex form. Here's a helpful tool: (https://string-functions.com/)[https://string-functions.com/]. `MINTAMOUNT` can also be any positive number. In later examples we will constrain minting to certain token name and amount.
+
+```
+SENDER=$(cat ...path-to/base.addr)
+SENDERKEY= path to payment.skey for this address
+TXIN= hash and id
+COLLATERAL= hash and id
+POLICYID= from Step A1
+TOKENNAME="616e797468696e67"
+MINTAMOUNT=1000
+SCRIPTFILE="... path to redeemer-minting-script-a.plutus"
+TESTNET="--testnet-magic 1097911063"
+```
+
+#### Step A3
+
+Note: try using a `mint-redeemer-value` other than `99` and look for the custom error message in the Script debugging logs.
+
+```
+cardano-cli transaction build \
+--alonzo-era \
 --testnet-magic 1097911063 \
-`
+--tx-in $TXIN \
+--tx-out $SENDER+2000000+"$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--change-address $SENDER \
+--mint "$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--mint-script-file $SCRIPTFILE \
+--mint-redeemer-value 99 \
+--tx-in-collateral $COLLATERAL \
+--protocol-params-file protocol.json \
+--out-file check-amount.raw
+
+cardano-cli transaction sign \
+--signing-key-file $SENDERKEY \
+--testnet-magic 1097911063 \
+--tx-body-file check-amount.raw \
+--out-file check-amount.signed
+
+cardano-cli transaction submit \
+--tx-file check-amount.signed \
+--testnet-magic 1097911063
+```
+
+### Example B
+
+We can also use a simple string as the redeemer.
+
+See the resulting token here: https://testnet.cardanoscan.io/token/a4665736eeab3296e87428327dedac75c1623e57f92b7a2843faafd7616e797468696e67
+
+#### Step B1
+```
+cardano-cli transaction policyid --script-file redeemer-minting-script-b.plutus > redeemer-minting-script-b.id
+```
+
+#### Step B2
+Set variables in bash.
+```
+SENDER=$(cat ...path-to/base.addr)
+SENDERKEY= path to payment.skey for this address
+TXIN= hash and id
+COLLATERAL= hash and id
+POLICYID= from Step B1
+TOKENNAME="6c6561726e"
+MINTAMOUNT=5000
+SCRIPTFILE=" ... path to redeemer-minting-script-b.plutus"
+TESTNET="--testnet-magic 1097911063"
+```
+
+#### Step B3
+
+Note: try using a `mint-redeemer-value` other than `"learn"` and look for the custom error message in the Script debugging logs.
+
+```
+cardano-cli transaction build \
+--alonzo-era \
+--testnet-magic 1097911063 \
+--tx-in $TXIN \
+--tx-out $SENDER+2000000+"$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--change-address $SENDER \
+--mint "$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--mint-script-file $SCRIPTFILE \
+--mint-redeemer-value \"learn\" \
+--tx-in-collateral $COLLATERAL \
+--protocol-params-file protocol.json \
+--out-file check-amount.raw
+
+cardano-cli transaction sign \
+--signing-key-file $SENDERKEY \
+--testnet-magic 1097911063 \
+--tx-body-file check-amount.raw \
+--out-file check-amount.signed
+
+cardano-cli transaction submit \
+--tx-file check-amount.signed \
+--testnet-magic 1097911063
+```
+
+## Example C: Token Name and / or minting amount
+
+#### Step C1
+```
+cardano-cli transaction policyid --script-file redeemer-minting-script-b.plutus > redeemer-minting-script-b.id
+```
+
+#### Step C2
+Set variables in bash.
+```
+SENDER=$(cat ...path-to/base.addr)
+SENDERKEY= path to payment.skey for this address
+TXIN= hash and id
+COLLATERAL= hash and id
+POLICYID= from Step B1
+TOKENNAME="6c6561726e"
+MINTAMOUNT=5000
+SCRIPTFILE=" ... path to redeemer-minting-script-b.plutus"
+TESTNET="--testnet-magic 1097911063"
+```
+
+#### Step C3
+
+Note: try using a `mint-redeemer-value` other than `"learn"` and look for the custom error message in the Script debugging logs.
+
+```
+cardano-cli transaction build \
+--alonzo-era \
+--testnet-magic 1097911063 \
+--tx-in $TXIN \
+--tx-out $SENDER+2000000+"$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--change-address $SENDER \
+--mint "$MINTAMOUNT $POLICYID.$TOKENNAME" \
+--mint-script-file $SCRIPTFILE \
+--mint-redeemer-value \"learn\" \
+--tx-in-collateral $COLLATERAL \
+--protocol-params-file protocol.json \
+--out-file check-amount.raw
+
+cardano-cli transaction sign \
+--signing-key-file $SENDERKEY \
+--testnet-magic 1097911063 \
+--tx-body-file check-amount.raw \
+--out-file check-amount.signed
+
+cardano-cli transaction submit \
+--tx-file check-amount.signed \
+--testnet-magic 1097911063
+```
